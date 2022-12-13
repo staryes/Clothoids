@@ -43,8 +43,16 @@ set(G2LIB_SOURCES
 pybind11_add_module(${PROJECT_NAME} MODULE ${G2LIB_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../lib/include")
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../lib3rd/include")
+
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
-target_link_libraries(${PROJECT_NAME} PRIVATE ClothoidsStatic UtilsStatic QuarticStatic)
+#target_link_libraries(${PROJECT_NAME} PRIVATE ClothoidsStatic UtilsStatic QuarticStatic)
+target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../lib/lib")
+target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../lib3rd/lib")
+target_link_libraries(${PROJECT_NAME} PRIVATE libClothoids_linux_static.a)
+target_link_libraries(${PROJECT_NAME} PRIVATE libUtils_linux_static.a libquarticRootsFlocke_linux_static.a)
+
 if (ipopt_FOUND)
   target_compile_definitions(${PROJECT_NAME} PRIVATE IPOPT_CLOTHOID_SPLINE)
   target_include_directories(${PROJECT_NAME} PRIVATE ${ipopt_INCLUDE_DIRS})
